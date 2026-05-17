@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediFind - İlaç Arama Platformu</title>
+    <link rel="stylesheet" href="styles.css?v=2">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigasyon -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <div class="logo">
+                    <i class="fas fa-pills"></i>
+                    <span>MediFind</span>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#anasayfa">Ana Sayfa</a></li>
+                    <li><a href="#hakkimizda">Hakkımızda</a></li>
+                    <li><a href="#ozellikler">Özellikler</a></li>
+                    <li><a href="#iletisim">İletişim</a></li>
+                    <li><a href="javascript:void(0)" class="nav-btn-login"><i class="fas fa-user-medical"></i> Eczacı Girişi</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+   <!-- ANASAYFA-->
+    <section id="anasayfa" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>İhtiyacınız olan ilacı <span class="highlight">saniyeler içinde</span> bulun</h1>
+                <p class="hero-subtitle">MediFind ile yakınınızdaki eczanelerdeki ilaç stoklarını anlık olarak görüntüleyin. Artık eczane eczane dolaşmaya son.</p>
+                
+                <div class="main-search-container">
+                    <div class="search-wrapper">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" placeholder="Aradığınız ilacın adını yazın (Örn: Arveles, Parol...)" id="medicineSearch">
+                        <button type="button" class="search-btn">Bul</button>
+                    </div>
+                </div>
+                
+                <div class="hero-buttons">
+                    <button class="btn btn-primary" data-testid="hero-cta-button">
+                        <i class="fas fa-search"></i>
+                        İlaç Ara
+                    </button>
+                    <button class="btn btn-secondary" data-testid="learn-more-button" onclick="window.location.href='#hakkimizda'">
+                        Daha Fazla Bilgi
+                    </button>
+                </div>
+
+                <!-- ARAMA SONUÇLARI LİSTELEME ALANI (Başlangıçta Gizli) -->
+                <div id="searchResultsContainer" class="search-results-container" style="display: none;">
+                    <h3 class="results-title"><i class="fas fa-notes-medical"></i> Bulunan Eczaneler ve Stoklar</h3>
+                    <div id="resultsGrid" class="results-grid">
+                        <!-- JavaScript ile dinamik olarak buraya kartlar eklenecek -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- İstatistik -->
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <i class="fas fa-store"></i>
+                    <h3>500+</h3>
+                    <p>Eczane</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-capsules"></i>
+                    <h3>10.000+</h3>
+                    <p>İlaç Çeşidi</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-users"></i>
+                    <h3>50.000+</h3>
+                    <p>Kullanıcı</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hakkımızda -->
+    <section id="hakkimizda" class="about">
+        <div class="container">
+            <div class="about-content-new">
+                <div class="about-left">
+                    <h2>Misyonumuz</h2>
+                    <p>MediFind, en temelinde insanların aradıkları ilacı saniyeler içinde bulmasını sağlayan ve eczane stoklarını şeffaf hale getiren bir mobil uygulama projesidir.</p>
+                    <p>Özellikle acil durumlarda ihtiyacımız olan ilacı bulamamak, eczane eczane dolaşıp "yok" cevabını almak hem büyük bir vakit kaybı hem de tedavi sürecinde ciddi aksamalara neden olur.</p>
+                    <p>Biz MediFind ile tam olarak bu kaosu bitirmeyi, hastalarla ilacı buluşturan o köprüyü en hızlı şekilde kurmayı hedefledik.</p>
+                </div>
+                <div class="about-right">
+                    <div class="contact-info-box">
+                        <div class="info-box-item">
+                            <div class="info-icon-box">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="info-text-box">
+                                <h3>Adres</h3>
+                                <p>Ayazağa Mahallesi, Dereboyu Caddesi</p>
+                                <p>No:123</p>
+                                <p>İstanbul, Türkiye</p>
+                            </div>
+                        </div>
+                        <div class="info-box-item">
+                            <div class="info-icon-box">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="info-text-box">
+                                <h3>E-posta</h3>
+                                <p>info@medifind.com.tr</p>
+                                <p>destek@medifind.com.tr</p>
+                            </div>
+                        </div>
+                        <div class="info-box-item">
+                            <div class="info-icon-box">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div class="info-text-box">
+                                <h3>Telefon</h3>
+                                <p>+90 (312) 123 45 67</p>
+                                <p>+90 (555) 987 65 43</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+<!-- Eczacı Paneli Tanıtımı -->
+<section id="eczaci-paneli" class="pharmacist-section">
+    <div class="container">
+        <div class="pharmacist-content">
+            <div class="pharmacist-text">
+                <span class="badge">Eczacılar İçin</span>
+                <h2>Eczanenizi <span class="highlight">Akıllıca</span> Yönetin</h2>
+                <p>MediFind sadece bir arama motoru değil, eczaneniz için tam kapsamlı bir stok yönetim panelidir. Karmaşık sistemlerden kurtulun.</p>
+                
+                <ul class="pharmacist-features">
+                    <li>
+                        <i class="fas fa-check-circle"></i>
+                        <div>
+                            <strong>Tek Tıkla Stok Güncelleme:</strong>
+                            <span>Gelen ilaçları saniyeler içinde sisteme tanımlayın.</span>
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fas fa-check-circle"></i>
+                        <div>
+                            <strong>Kritik Stok Uyarıları:</strong>
+                            <span>İlacınız azalınca sistem sizi otomatik olarak uyarsın.</span>
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fas fa-check-circle"></i>
+                        <div>
+                            <strong>Reçete Analizi:</strong>
+                            <span>Hangi dönemde hangi ilaçların daha çok arandığını görün.</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="pharmacist-image">
+                <div class="dashboard-mockup">
+                    <div class="mockup-header">
+                        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                    </div>
+                    <!-- Burası panelin görsel simülasyonu -->
+                  <div class="mockup-body" style="padding: 15px; background: #f8fafc; height: 100%;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px;">
+                            <h4 style="margin: 0; font-size: 14px; color: #1e293b;"><i class="fas fa-box-open" style="color: #3b82f6;"></i> Canlı Stok Akışı</h4>
+                        </div>
+                        
+                        <div style="background: white; padding: 10px 12px; border-radius: 6px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border-left: 4px solid #10b981;">
+                            <div style="font-weight: 600; font-size: 13px; color: #333;">Parol 500mg</div>
+                            <div style="background: #d1fae5; color: #065f46; font-size: 11px; padding: 4px 8px; border-radius: 4px; font-weight: bold;">Yeterli: 45</div>
+                        </div>
+
+                        <div style="background: white; padding: 10px 12px; border-radius: 6px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border-left: 4px solid #f59e0b;">
+                            <div style="font-weight: 600; font-size: 13px; color: #333;">Arveles 25mg</div>
+                            <div style="background: #fef3c7; color: #b45309; font-size: 11px; padding: 4px 8px; border-radius: 4px; font-weight: bold;">Kritik: 8</div>
+                        </div>
+
+                        <div style="background: white; padding: 10px 12px; border-radius: 6px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border-left: 4px solid #ef4444;">
+                            <div style="font-weight: 600; font-size: 13px; color: #333;">Majezik 100mg</div>
+                            <div style="background: #fee2e2; color: #991b1b; font-size: 11px; padding: 4px 8px; border-radius: 4px; font-weight: bold;">Tükendi: 0</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <!-- Özellikler -->
+    <section id="ozellikler" class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2>Özellikler</h2>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-search-location"></i>
+                    </div>
+                    <h3>Hızlı Arama</h3>
+                    <p>Aradığınız ilacın adını yazın, yakınınızdaki hangi eczanede kaç adet olduğunu anında görün.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-file-prescription"></i>
+                    </div>
+                    <h3>Reçete Türleri</h3>
+                    <p>Kırmızı, yeşil, sarı reçete türü ne olursa olsun tüm ilaçları sistemimizde bulabilirsiniz.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Stok Takibi</h3>
+                    <p>Eczaneler stoklarını kolayca güncelleyebilir, siz de güncel bilgilere erişebilirsiniz.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>7/24 Erişim</h3>
+                    <p>Gece veya gündüz, acil durumlarda bile ihtiyacınız olan ilacı hemen bulun.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h3>Favori Eczaneler</h3>
+                    <p>Sık kullandığınız eczaneleri favorilerinize ekleyin, hızlıca erişin.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Güvenilir Bilgi</h3>
+                    <p>Eczacıların doğrudan güncellediği güncel ve güvenilir stok bilgileri.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works">
+        <div class="container">
+            <div class="section-header">
+                <h2>Nasıl Kullanılır?</h2>
+                <p>3 basit adımda ilacınıza ulaşın</p>
+            </div>
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h3>İlaç Adını Yazın</h3>
+                    <p>Arama çubuğuna ihtiyacınız olan ilacın adını girin</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h3>Eczaneleri Görün</h3>
+                    <p>Yakınınızdaki eczanelerde stok durumunu kontrol edin</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h3>İlacınızı Alın</h3>
+                    <p>En yakın eczaneye giderek ilacınızı hemen temin edin</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="iletisim" class="contact">
+        <div class="section-header">
+            <h2>İletişime Geçin</h2>
+            <p>Sorularınız veya önerileriniz için bize ulaşın</p>
+        </div>
+        <div class="contact-container">
+            <form>
+                <div class="form-group">
+                    <label for="name">Ad Soyad</label>
+                    <input type="text" id="name" placeholder="Adınızı ve soyadınızı girin">
+                </div>
+                <div class="form-group">
+                    <label for="email">E-posta</label>
+                    <input type="email" id="email" placeholder="ornek@email.com">
+                </div>
+                <div class="form-group">
+                    <label for="subject">Konu</label>
+                    <input type="text" id="subject" placeholder="Mesajınızın konusu">
+                </div>
+                <div class="form-group">
+                    <label for="message">Mesajınız</label>
+                    <textarea id="message" placeholder="Mesajınızı buraya yazın..."></textarea>
+                </div>
+                <button type="button" class="submit-btn">Gönder</button>
+            </form>
+        </div>
+    </section>
+    <!-- Alt Menü -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <i class="fas fa-pills"></i>
+                        <span>MediFind</span>
+                    </div>
+                    <p>İhtiyacınız olan ilacı saniyeler içinde bulun</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Hızlı Bağlantılar</h4>
+                    <ul>
+                        <li><a href="#anasayfa">Ana Sayfa</a></li>
+                        <li><a href="#hakkimizda">Hakkımızda</a></li>
+                        <li><a href="#ozellikler">Özellikler</a></li>
+                        <li><a href="#iletisim">İletişim</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h4>Sosyal Medya</h4>
+                    <div class="social-icons">
+                        <a href="#" data-testid="facebook-link"><i class="fab fa-facebook"></i></a>
+                        <a href="#" data-testid="twitter-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" data-testid="instagram-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" data-testid="linkedin-link"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 MediFind. Tüm hakları saklıdır.</p>
+            </div>
+        </div>
+    </footer>
+    <!-- Eczacı İşlem Merkezi (Modal) -->
+<div id="medicineModal" class="modal">
+    <div class="modal-content" id="modalContentBox">
+        <span class="close-modal">&times;</span>
+        <h2 id="modalTitle"><i class="fas fa-user-lock"></i> Eczacı Girişi</h2>
+        
+        <div id="loginFormArea">
+            <form id="loginForm">
+                <div class="form-group">
+                    <label>Eczane Adı</label>
+                    <input type="text" id="loginPharmacyName" placeholder="Örn: Ayazağa Eczanesi" required>
+                </div>
+                <div class="form-group">
+                    <label>Şifre</label>
+                    <input type="password" id="loginPassword" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="submit-btn">Sisteme Giriş Yap</button>
+                <p class="form-footer">Sisteme yeni mi katılıyorsunuz? <a href="javascript:void(0)" id="showRegister">Eczanenizi Kaydedin</a></p>
+            </form>
+        </div>
+
+        <div id="registerFormArea" style="display: none;">
+            <form id="registerForm">
+                <div class="form-group">
+                    <label>Eczane Adı</label>
+                    <input type="text" id="regPharmacyName" placeholder="Örn: Ayazağa Eczanesi" required>
+                </div>
+                <div class="form-group">
+                    <label>Telefon Numarası</label>
+                    <input type="tel" id="regPhone" placeholder="Örn: 0212 555 5555" required>
+                </div>
+                <div class="form-group">
+                    <label>Açık Adres (Yol Tarifi İçin)</label>
+                    <textarea id="regAddress" placeholder="Örn: Ayazağa Mah. 123. Sok. Şişli/İstanbul" rows="2" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Şifre Oluştur</label>
+                    <input type="password" id="regPassword" placeholder="Güçlü bir şifre belirleyin" required>
+                </div>
+                <button type="submit" class="submit-btn">Kayıt Ol ve Panele Geç</button>
+                <p class="form-footer">Zaten kayıtlı mısınız? <a href="javascript:void(0)" id="showLogin">Giriş Yapın</a></p>
+            </form>
+        </div>
+
+        <div id="addMedicineArea" style="display: none;">
+           <div class="panel-header">
+                <div class="welcome-badge" style="margin:0; border:none; padding:0; background:transparent;">
+                    <i class="fas fa-store" style="color:var(--primary-blue);"></i> 
+                    <span id="activePharmacyName" style="font-weight:bold; font-size:16px;">Eczane Paneli</span>
+                </div>
+                <button id="logoutBtn" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i> Çıkış Yap
+                </button>
+            </div>
+            
+            <div class="dashboard-layout">
+                <div class="dashboard-sidebar">
+                    <h3><i class="fas fa-plus-circle"></i> Yeni İlaç Ekle</h3>
+                    <form id="medicineEntryForm">
+                        <div class="form-group">
+                            <input type="text" id="newMedName" placeholder="İlaç Adı (Örn: Parol)" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="number" id="newMedStock" placeholder="Stok Adedi" required>
+                        </div>
+                        <button type="submit" class="submit-btn success">Stoğa Ekle</button>
+                    </form>
+                </div>
+
+                <div class="dashboard-main">
+                    <h3><i class="fas fa-box-open"></i> Mevcut Stoklarım</h3>
+                    <div class="form-group">
+                        <input type="text" id="panelSearch" placeholder="Kendi stoklarınızda ilaç arayın...">
+                    </div>
+                    <div id="panelStockList" class="panel-stock-list">
+                        <p style="color: #666; font-size: 14px;">Henüz ilaç eklemediniz.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+// 1. Elementleri Tanımlama
+const modal = document.getElementById("medicineModal");
+const loginBtn = document.querySelector(".nav-btn-login");
+const closeBtn = document.querySelector(".close-modal");
+
+const loginArea = document.getElementById("loginFormArea");
+const registerArea = document.getElementById("registerFormArea");
+const medicineArea = document.getElementById("addMedicineArea");
+const modalTitle = document.getElementById("modalTitle");
+
+// 2. Formlar Arası Geçiş (Giriş <-> Kayıt)
+document.getElementById("showRegister").onclick = () => {
+    loginArea.style.display = "none";
+    registerArea.style.display = "block";
+    modalTitle.innerHTML = '<i class="fas fa-user-plus"></i> Eczane Kayıt';
+};
+
+document.getElementById("showLogin").onclick = () => {
+    registerArea.style.display = "none";
+    loginArea.style.display = "block";
+    modalTitle.innerHTML = '<i class="fas fa-user-lock"></i> Eczacı Girişi';
+};
+
+// 3. Giriş Yapma Simülasyonu
+document.getElementById("loginForm").onsubmit = (e) => {
+    e.preventDefault(); // Sayfanın yenilenmesini engelle
+    const pharmacyName = document.getElementById("loginPharmacyName").value;
+    
+    // Formları gizle/göster
+    loginArea.style.display = "none";
+    medicineArea.style.display = "block";
+    
+    // Paneli güncelle
+    modalTitle.innerHTML = '<i class="fas fa-pills"></i> Stok Yönetimi';
+    document.getElementById("activePharmacyName").innerText = pharmacyName + " Paneli";
+};
+
+// 4. Kayıt Olma Simülasyonu
+document.getElementById("registerForm").onsubmit = (e) => {
+    e.preventDefault();
+    const pharmacyName = document.getElementById("regPharmacyName").value;
+    
+    registerArea.style.display = "none";
+    medicineArea.style.display = "block";
+    
+    modalTitle.innerHTML = '<i class="fas fa-pills"></i> Stok Yönetimi';
+    document.getElementById("activePharmacyName").innerText = pharmacyName + " Paneli";
+};
+
+// 5. Modalı Açma/Kapatma Fonksiyonları
+loginBtn.onclick = () => {
+    modal.style.display = "block";
+};
+
+closeBtn.onclick = () => {
+    modal.style.display = "none";
+    // Modal kapanınca formu sıfırlayıp giriş ekranına döndürelim (opsiyonel)
+    setTimeout(() => {
+        medicineArea.style.display = "none";
+        registerArea.style.display = "none";
+        loginArea.style.display = "block";
+        modalTitle.innerHTML = '<i class="fas fa-user-lock"></i> Eczacı Girişi';
+    }, 300);
+};
+
+window.onclick = (event) => {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+};
+<!-- JavaScript Kodlarını Buraya Alıyoruz -->
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+    console.log("MediFind Akıllı Panel Başlatıldı...");
+
+    const modal = document.getElementById("medicineModal");
+    const loginBtn = document.querySelector(".nav-btn-login");
+    const closeBtn = document.querySelector(".close-modal");
+    
+    const loginArea = document.getElementById("loginFormArea");
+    const registerArea = document.getElementById("registerFormArea");
+    const medicineArea = document.getElementById("addMedicineArea");
+    const modalTitle = document.getElementById("modalTitle");
+
+    // Modal Aç/Kapat
+    if (loginBtn) loginBtn.onclick = (e) => { e.preventDefault(); modal.style.display = "block"; };
+    if (closeBtn) closeBtn.onclick = () => modal.style.display = "none";
+    window.onclick = (event) => { if (event.target == modal) modal.style.display = "none"; };
+
+    // Form Geçişleri
+    document.getElementById("showRegister").onclick = () => {
+        loginArea.style.display = "none"; registerArea.style.display = "block";
+        modalTitle.innerHTML = '<i class="fas fa-user-plus"></i> Eczane Kayıt';
+    };
+    document.getElementById("showLogin").onclick = () => {
+        registerArea.style.display = "none"; loginArea.style.display = "block";
+        modalTitle.innerHTML = '<i class="fas fa-user-lock"></i> Eczacı Girişi';
+    };
+
+    // --- 1. ECZANE VERİLERİ VE GİRİŞ SİSTEMİ ---
+    let currentPharmacy = "";
+
+    function openPanel(pharmacyName) {
+        currentPharmacy = pharmacyName;
+        loginArea.style.display = "none";
+        registerArea.style.display = "none";
+        medicineArea.style.display = "block";
+        modalTitle.innerHTML = '<i class="fas fa-pills"></i> Stok Yönetimi';
+        document.getElementById("activePharmacyName").innerText = pharmacyName + " Paneli";
+        renderPanelStock(); // Sisteme girince mevcut stokları listele
+    }
+
+    // Giriş Yapma (Şifre Kontrollü)
+    document.getElementById("loginForm").onsubmit = (e) => {
+        e.preventDefault();
+        const name = document.getElementById("loginPharmacyName").value.trim();
+        const password = document.getElementById("loginPassword").value;
+        
+        let pharmacies = JSON.parse(localStorage.getItem("pharmacies")) || {};
+        
+        // Eczane kayıtlı mı ve şifre doğru mu kontrol et
+        if (pharmacies[name] && pharmacies[name].password === password) {
+            openPanel(name);
+            document.getElementById("loginPassword").value = ""; // Güvenlik için şifre kutusunu temizle
+        } else {
+            alert("❌ Hata: Eczane adı veya şifre yanlış! Lütfen tekrar deneyin.");
+        }
+    };
+
+    // Kayıt Olma (Adres, Telefon ve Şifre Bilgileriyle)
+    document.getElementById("registerForm").onsubmit = (e) => {
+        e.preventDefault();
+        const name = document.getElementById("regPharmacyName").value.trim();
+        const phone = document.getElementById("regPhone").value.trim();
+        const address = document.getElementById("regAddress").value.trim();
+        const password = document.getElementById("regPassword").value;
+        
+        let pharmacies = JSON.parse(localStorage.getItem("pharmacies")) || {};
+        
+        // Aynı isimde eczane varsa uyar
+        if(pharmacies[name]) {
+            alert("⚠️ Bu eczane adıyla zaten bir kayıt mevcut! Lütfen giriş yapın.");
+            return;
+        }
+
+        // Eczane bilgilerini şifreyle beraber hafızaya kaydet
+        pharmacies[name] = { phone: phone, address: address, password: password };
+        localStorage.setItem("pharmacies", JSON.stringify(pharmacies));
+        
+        document.getElementById("regPassword").value = ""; // Formu temizle
+        openPanel(name);
+    };
+    // Çıkış Yapma İşlemi
+    const logoutBtn = document.getElementById("logoutBtn");
+    if (logoutBtn) {
+        logoutBtn.onclick = () => {
+            currentPharmacy = ""; // Hafızadaki aktif eczaneyi sıfırla
+            document.getElementById("addMedicineArea").style.display = "none"; // Paneli gizle
+            document.getElementById("loginFormArea").style.display = "block"; // Giriş formunu göster
+            document.getElementById("modalTitle").innerHTML = '<i class="fas fa-user-lock"></i> Eczacı Girişi';
+            document.getElementById("loginForm").reset(); // Giriş formundaki yazıları temizle
+        };
+    }
+    // --- 2. YENİ İLAÇ EKLEME ---
+    const medicineEntryForm = document.getElementById("medicineEntryForm");
+    medicineEntryForm.onsubmit = function(e) {
+        e.preventDefault();
+        const name = document.getElementById("newMedName").value.trim();
+        const stock = parseInt(document.getElementById("newMedStock").value);
+
+        if(name === "" || isNaN(stock)) return;
+
+        let medicineList = JSON.parse(localStorage.getItem("allMedicines")) || [];
+        
+        // Bu eczanede bu ilaç zaten var mı kontrol et
+        let existingMed = medicineList.find(m => m.name.toLowerCase() === name.toLowerCase() && m.pharmacy === currentPharmacy);
+        
+        if(existingMed) {
+            existingMed.stock += stock; // Zaten varsa sayısını arttır
+        } else {
+            medicineList.push({ name: name, stock: stock, pharmacy: currentPharmacy }); // Yoksa yeni ekle
+        }
+
+        localStorage.setItem("allMedicines", JSON.stringify(medicineList));
+        document.getElementById("newMedName").value = "";
+        document.getElementById("newMedStock").value = "";
+        
+        const currentSearch = document.getElementById("panelSearch").value;
+        renderPanelStock(currentSearch); // Listeyi güncelle
+    };
+
+    // --- 3. PANELDE STOKLARI LİSTELEME VE DURUM KONTROLÜ ---
+    function renderPanelStock(searchTerm = "") {
+        const panelStockList = document.getElementById("panelStockList");
+        let medicineList = JSON.parse(localStorage.getItem("allMedicines")) || [];
+        
+        // Sadece giriş yapan eczanenin ilaçlarını ayıkla
+        let myMedicines = medicineList.filter(m => m.pharmacy === currentPharmacy);
+        
+        // Eczacı kendi panelinde arama yaptıysa filtrele
+        if (searchTerm !== "") {
+            myMedicines = myMedicines.filter(m => m.name.toLowerCase().includes(searchTerm.toLowerCase()));
+        }
+
+        panelStockList.innerHTML = "";
+
+        if (myMedicines.length === 0) {
+            panelStockList.innerHTML = `<p style="color: #666; font-size: 14px; text-align:center; margin-top:20px;">Bu kriterlere uygun ilaç bulunamadı.</p>`;
+            return;
+        }
+
+        myMedicines.forEach((med) => {
+            // İlacın hafızadaki gerçek sırasını bul (Güncelleme yapmak için şart)
+            let realIndex = medicineList.findIndex(m => m.name === med.name && m.pharmacy === currentPharmacy);
+            
+            // Stok durumuna göre renk ve yazı belirle
+            let statusClass = "status-good";
+            let statusText = "Yeterli Stok";
+            
+            if (med.stock === 0) {
+                statusClass = "status-empty";
+                statusText = "Stok Tükendi";
+            } else if (med.stock < 15) {
+                statusClass = "status-critical";
+                statusText = "Kritik Seviye";
+            }
+
+            const item = document.createElement("div");
+            item.className = "panel-stock-item";
+            item.innerHTML = `
+                <div class="stock-info">
+                    <h4>${med.name}</h4>
+                    <span class="status-badge ${statusClass}">${statusText}</span>
+                </div>
+                <div class="stock-controls">
+                    <button class="btn-qty" onclick="updateStock(${realIndex}, -1)">-</button>
+                    <div class="qty-display">${med.stock}</div>
+                    <button class="btn-qty" onclick="updateStock(${realIndex}, 1)">+</button>
+                </div>
+            `;
+            panelStockList.appendChild(item);
+        });
+    }
+
+    // --- 4. ARTI (+) VE EKSİ (-) BUTONLARI İŞLEVİ ---
+    window.updateStock = function(index, change) {
+        let medicineList = JSON.parse(localStorage.getItem("allMedicines")) || [];
+        let newStock = medicineList[index].stock + change;
+        
+        if (newStock < 0) newStock = 0; // Stok eksiye düşemez
+        
+        medicineList[index].stock = newStock;
+        localStorage.setItem("allMedicines", JSON.stringify(medicineList));
+        
+        // Arama varsa arama bozulmadan listeyi yenile
+        const currentSearch = document.getElementById("panelSearch").value;
+        renderPanelStock(currentSearch);
+    };
+
+    // Panel içi anlık arama (Eczacı yazı yazdıkça tetiklenir)
+    document.getElementById("panelSearch").onkeyup = function(e) {
+        renderPanelStock(e.target.value);
+    };
+
+    // --- 5. ANA SAYFA ARAMA MOTORU (MÜŞTERİLER İÇİN) ---
+    const searchBtn = document.querySelector(".search-btn");
+    const bigSearchBtn = document.querySelector(".btn-primary");
+    const searchInput = document.getElementById("medicineSearch");
+    const resultsContainer = document.getElementById("searchResultsContainer");
+    const resultsGrid = document.getElementById("resultsGrid");
+
+    function performSearch() {
+        const searchTerm = searchInput.value.trim().toLowerCase();
+        if (searchTerm === "") {
+            alert("Lütfen aramak istediğiniz ilacın adını yazın.");
+            return;
+        }
+
+        const medicineList = JSON.parse(localStorage.getItem("allMedicines")) || [];
+        const pharmacies = JSON.parse(localStorage.getItem("pharmacies")) || {}; // Adresleri çekmek için
+        
+        // Sadece stoğu 0'dan büyük olanları müşteriye göster
+        const results = medicineList.filter(med => med.name.toLowerCase().includes(searchTerm) && med.stock > 0); 
+
+        resultsContainer.style.display = "block";
+        resultsGrid.innerHTML = "";
+
+        if (results.length > 0) {
+            results.forEach(res => {
+                // Eczanenin kayıtlı detaylarını çek (Eski kayıtsa varsayılan değer ata)
+                const pInfo = pharmacies[res.pharmacy] || { address: res.pharmacy + " eczanesi", phone: "Kayıtlı Değil" };
+                
+                // Tam adresi Google Haritalar linkine dönüştür
+                const mapQuery = encodeURIComponent(pInfo.address);
+                const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${mapQuery}`;
+
+                const card = document.createElement("div");
+                card.className = "result-card";
+                card.innerHTML = `
+                    <h4><i class="fas fa-pills"></i> ${res.name}</h4>
+                    <p><i class="fas fa-store"></i> ${res.pharmacy}</p>
+                    <p style="font-size: 13px; color: #555; margin-top:8px;"><i class="fas fa-phone"></i> ${pInfo.phone}</p>
+                    <p style="font-size: 13px; color: #555; margin-top:3px;"><i class="fas fa-map-marker-alt"></i> ${pInfo.address}</p>
+                    
+                    <div class="card-actions">
+                        <div class="stock-badge">Stok: ${res.stock}</div>
+                        <a href="${googleMapsUrl}" target="_blank" class="btn-directions">
+                            <i class="fas fa-directions"></i> Yol Tarifi
+                        </a>
+                    </div>
+                `;
+                resultsGrid.appendChild(card);
+            });
+        } else {
+            resultsGrid.innerHTML = `
+                <p class="no-result">
+                    <i class="fas fa-exclamation-circle"></i> 
+                    Maalesef "${searchInput.value}" hiçbir eczanenin stoklarında bulunamadı (veya tamamen tükendi).
+                </p>
+            `;
+        }
+    }
+
+    if (searchBtn) searchBtn.onclick = (e) => { e.preventDefault(); performSearch(); };
+    if (bigSearchBtn) bigSearchBtn.onclick = (e) => { e.preventDefault(); performSearch(); };
+});
+    
+
+    </script>
+</body>
+</html>
