@@ -500,8 +500,8 @@ window.onclick = (event) => {
     }
 };
 <!-- JavaScript Kodlarını Buraya Alıyoruz -->
-    <script>
-    document.addEventListener("DOMContentLoaded", function() {
+ <script>
+document.addEventListener("DOMContentLoaded", function() {
     console.log("MediFind Akıllı Panel Başlatıldı...");
 
     const modal = document.getElementById("medicineModal");
@@ -544,7 +544,8 @@ window.onclick = (event) => {
     // Giriş Yapma (Şifre Kontrollü)
     document.getElementById("loginForm").onsubmit = (e) => {
         e.preventDefault();
-        const name = document.getElementById("loginPharmacyName").value.trim();
+        // İsimleri eşleştirebilmek için küçük harfe çeviriyoruz
+        const name = document.getElementById("loginPharmacyName").value.trim().toLowerCase();
         const password = document.getElementById("loginPassword").value;
         
         let pharmacies = JSON.parse(localStorage.getItem("pharmacies")) || {};
@@ -552,83 +553,82 @@ window.onclick = (event) => {
         // Eczane kayıtlı mı ve şifre doğru mu kontrol et
         if (pharmacies[name] && pharmacies[name].password === password) {
             openPanel(name);
-            document.getElementById("loginPassword").value = ""; // Güvenlik için şifre kutusunu temizle
+            document.getElementById("loginPassword").value = ""; 
         } else {
             alert("❌ Hata: Eczane adı veya şifre yanlış! Lütfen tekrar deneyin.");
         }
     };
 
-    // Kayıt Olma (Adres, Telefon ve Şifre Bilgileriyle)
+    // Kayıt Olma
     document.getElementById("registerForm").onsubmit = (e) => {
         e.preventDefault();
-        const name = document.getElementById("regPharmacyName").value.trim();
+        const name = document.getElementById("regPharmacyName").value.trim().toLowerCase();
         const phone = document.getElementById("regPhone").value.trim();
         const address = document.getElementById("regAddress").value.trim();
         const password = document.getElementById("regPassword").value;
         
         let pharmacies = JSON.parse(localStorage.getItem("pharmacies")) || {};
         
-        // Aynı isimde eczane varsa uyar
         if(pharmacies[name]) {
             alert("⚠️ Bu eczane adıyla zaten bir kayıt mevcut! Lütfen giriş yapın.");
             return;
         }
 
-        // Eczane bilgilerini şifreyle beraber hafızaya kaydet
         pharmacies[name] = { phone: phone, address: address, password: password };
         localStorage.setItem("pharmacies", JSON.stringify(pharmacies));
         
-        document.getElementById("regPassword").value = ""; // Formu temizle
+        document.getElementById("regPassword").value = "";
         openPanel(name);
     };
+
     // Çıkış Yapma İşlemi
     const logoutBtn = document.getElementById("logoutBtn");
     if (logoutBtn) {
         logoutBtn.onclick = () => {
-            currentPharmacy = ""; // Hafızadaki aktif eczaneyi sıfırla
-            document.getElementById("addMedicineArea").style.display = "none"; // Paneli gizle
-            document.getElementById("loginFormArea").style.display = "block"; // Giriş formunu göster
+            currentPharmacy = ""; 
+            document.getElementById("addMedicineArea").style.display = "none"; 
+            document.getElementById("loginFormArea").style.display = "block"; 
             document.getElementById("modalTitle").innerHTML = '<i class="fas fa-user-lock"></i> Eczacı Girişi';
-            document.getElementById("loginForm").reset(); // Giriş formundaki yazıları temizle
+            document.getElementById("loginForm").reset(); 
         };
     }
+
     // --- 2. YENİ İLAÇ EKLEME ---
     const medicineEntryForm = document.getElementById("medicineEntryForm");
-    medicineEntryForm.onsubmit = function(e) {
-        e.preventDefault();
-        const name = document.getElementById("newMedName").value.trim();
-        const stock = parseInt(document.getElementById("newMedStock").value);
+    if (medicineEntryForm) {
+        medicineEntryForm.onsubmit = function(e) {
+            e.preventDefault();
+            const name = document.getElementById("newMedName").value.trim();
+            const stock = parseInt(document.getElementById("newMedStock").value);
 
-        if(name === "" || isNaN(stock)) return;
+            if(name === "" || isNaN(stock)) return;
 
-        let medicineList = JSON.parse(localStorage.getItem("allMedicines")) || [];
-        
-        // Bu eczanede bu ilaç zaten var mı kontrol et
-        let existingMed = medicineList.find(m => m.name.toLowerCase() === name.toLowerCase() && m.pharmacy === currentPharmacy);
-        
-        if(existingMed) {
-            existingMed.stock += stock; // Zaten varsa sayısını arttır
-        } else {
-            medicineList.push({ name: name, stock: stock, pharmacy: currentPharmacy }); // Yoksa yeni ekle
-        }
+            let medicineList = JSON.parse(localStorage.getItem("allMedicines")) || [];
+            
+            let existingMed = medicineList.find(m => m.name.toLowerCase() === name.toLowerCase() && m.pharmacy === currentPharmacy);
+            
+            if(existingMed) {
+                existingMed.stock += stock; 
+            } else {
+                medicineList.push({ name: name.toLowerCase(), stock: stock, pharmacy: currentPharmacy }); 
+            }
 
-        localStorage.setItem("allMedicines", JSON.stringify(medicineList));
-        document.getElementById("newMedName").value = "";
-        document.getElementById("newMedStock").value = "";
-        
-        const currentSearch = document.getElementById("panelSearch").value;
-        renderPanelStock(currentSearch); // Listeyi güncelle
-    };
+            localStorage.setItem("allMedicines", JSON.stringify(medicineList));
+            document.getElementById("newMedName").value = "";
+            document.getElementById("newMedStock").value = "";
+            
+            const currentSearch = document.getElementById("panelSearch").value;
+            renderPanelStock(currentSearch); 
+        };
+    }
 
     // --- 3. PANELDE STOKLARI LİSTELEME VE DURUM KONTROLÜ ---
     function renderPanelStock(searchTerm = "") {
         const panelStockList = document.getElementById("panelStockList");
         let medicineList = JSON.parse(localStorage.getItem("allMedicines")) || [];
         
-        // Sadece giriş yapan eczanenin ilaçlarını ayıkla
         let myMedicines = medicineList.filter(m => m.pharmacy === currentPharmacy);
         
-        // Eczacı kendi panelinde arama yaptıysa filtrele
         if (searchTerm !== "") {
             myMedicines = myMedicines.filter(m => m.name.toLowerCase().includes(searchTerm.toLowerCase()));
         }
@@ -641,10 +641,8 @@ window.onclick = (event) => {
         }
 
         myMedicines.forEach((med) => {
-            // İlacın hafızadaki gerçek sırasını bul (Güncelleme yapmak için şart)
             let realIndex = medicineList.findIndex(m => m.name === med.name && m.pharmacy === currentPharmacy);
             
-            // Stok durumuna göre renk ve yazı belirle
             let statusClass = "status-good";
             let statusText = "Yeterli Stok";
             
@@ -660,7 +658,7 @@ window.onclick = (event) => {
             item.className = "panel-stock-item";
             item.innerHTML = `
                 <div class="stock-info">
-                    <h4>${med.name}</h4>
+                    <h4 style="text-transform: capitalize;">${med.name}</h4>
                     <span class="status-badge ${statusClass}">${statusText}</span>
                 </div>
                 <div class="stock-controls">
@@ -678,20 +676,20 @@ window.onclick = (event) => {
         let medicineList = JSON.parse(localStorage.getItem("allMedicines")) || [];
         let newStock = medicineList[index].stock + change;
         
-        if (newStock < 0) newStock = 0; // Stok eksiye düşemez
+        if (newStock < 0) newStock = 0; 
         
         medicineList[index].stock = newStock;
         localStorage.setItem("allMedicines", JSON.stringify(medicineList));
         
-        // Arama varsa arama bozulmadan listeyi yenile
         const currentSearch = document.getElementById("panelSearch").value;
         renderPanelStock(currentSearch);
     };
 
-    // Panel içi anlık arama (Eczacı yazı yazdıkça tetiklenir)
-    document.getElementById("panelSearch").onkeyup = function(e) {
-        renderPanelStock(e.target.value);
-    };
+    if (document.getElementById("panelSearch")) {
+        document.getElementById("panelSearch").onkeyup = function(e) {
+            renderPanelStock(e.target.value);
+        };
+    }
 
     // --- 5. ANA SAYFA ARAMA MOTORU (MÜŞTERİLER İÇİN) ---
     const searchBtn = document.querySelector(".search-btn");
@@ -708,28 +706,27 @@ window.onclick = (event) => {
         }
 
         const medicineList = JSON.parse(localStorage.getItem("allMedicines")) || [];
-        const pharmacies = JSON.parse(localStorage.getItem("pharmacies")) || {}; // Adresleri çekmek için
+        const pharmacies = JSON.parse(localStorage.getItem("pharmacies")) || {}; 
         
-        // Sadece stoğu 0'dan büyük olanları müşteriye göster
-        const results = medicineList.filter(med => med.name.toLowerCase().includes(searchTerm) && med.stock > 0); 
+        // Stoğu 0 olanlar (tükendi uyarısı ile) veya stokta olanları listele
+        const results = medicineList.filter(med => med.name.toLowerCase().includes(searchTerm) && med.stock >= 0); 
 
         resultsContainer.style.display = "block";
         resultsGrid.innerHTML = "";
 
         if (results.length > 0) {
             results.forEach(res => {
-                // Eczanenin kayıtlı detaylarını çek (Eski kayıtsa varsayılan değer ata)
-                const pInfo = pharmacies[res.pharmacy] || { address: res.pharmacy + " eczanesi", phone: "Kayıtlı Değil" };
+                const pInfo = pharmacies[res.pharmacy] || { address: res.address || "Kayıtlı Değil", phone: res.phone || "Kayıtlı Değil" };
                 
-                // Tam adresi Google Haritalar linkine dönüştür
+                // Google Haritalar linki düzeltildi!
                 const mapQuery = encodeURIComponent(pInfo.address);
                 const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${mapQuery}`;
 
                 const card = document.createElement("div");
                 card.className = "result-card";
                 card.innerHTML = `
-                    <h4><i class="fas fa-pills"></i> ${res.name}</h4>
-                    <p><i class="fas fa-store"></i> ${res.pharmacy}</p>
+                    <h4 style="text-transform: capitalize;"><i class="fas fa-pills"></i> ${res.name}</h4>
+                    <p style="text-transform: capitalize;"><i class="fas fa-store"></i> ${res.pharmacy}</p>
                     <p style="font-size: 13px; color: #555; margin-top:8px;"><i class="fas fa-phone"></i> ${pInfo.phone}</p>
                     <p style="font-size: 13px; color: #555; margin-top:3px;"><i class="fas fa-map-marker-alt"></i> ${pInfo.address}</p>
                     
@@ -754,9 +751,46 @@ window.onclick = (event) => {
 
     if (searchBtn) searchBtn.onclick = (e) => { e.preventDefault(); performSearch(); };
     if (bigSearchBtn) bigSearchBtn.onclick = (e) => { e.preventDefault(); performSearch(); };
-});
-    
 
-    </script>
+    // --- 0. DEMO (SAHTE) VERİLERİ YÜKLEME SİSTEMİ ---
+    function loadDemoData() {
+        let pharmacies = JSON.parse(localStorage.getItem("pharmacies")) || {};
+        let allMedicines = JSON.parse(localStorage.getItem("allMedicines")) || [];
+
+        // EĞER HİÇ ECZANE YOKSA VEYA İLAÇ LİSTESİ TAMAMEN BOŞSA DEMO VERİLERİ ZORLA YÜKLE
+        if (Object.keys(pharmacies).length === 0 || allMedicines.length === 0) {
+            
+            const demoPharmacies = {
+                "ayazağa eczanesi": { 
+                    phone: "Telefon Belirtilmedi", 
+                    address: "Ayazağa, 117. Sk. No:8 D:c, 34475 Sarıyer/İstanbul", 
+                    password: "123" 
+                },
+                "serhat eczanesi": { 
+                    phone: "Telefon Belirtilmedi", 
+                    address: "Ayazağa, Mustafa Kemal Atatürk Cd No:65/D, 34475 Şişli/İstanbul", 
+                    password: "123" 
+                }
+            };
+            
+            const demoMedicines = [
+                { name: "parol", pharmacy: "ayazağa eczanesi", stock: 30, address: "Ayazağa, 117. Sk. No:8 D:c, 34475 Sarıyer/İstanbul", phone: "Telefon Belirtilmedi" },
+                { name: "majezik", pharmacy: "ayazağa eczanesi", stock: 0, address: "Ayazağa, 117. Sk. No:8 D:c, 34475 Sarıyer/İstanbul", phone: "Telefon Belirtilmedi" },
+                { name: "arveles", pharmacy: "ayazağa eczanesi", stock: 13, address: "Ayazağa, 117. Sk. No:8 D:c, 34475 Sarıyer/İstanbul", phone: "Telefon Belirtilmedi" },
+                
+                { name: "parol", pharmacy: "serhat eczanesi", stock: 8, address: "Ayazağa, Mustafa Kemal Atatürk Cd No:65/D, 34475 Şişli/İstanbul", phone: "Telefon Belirtilmedi" },
+                { name: "arveles", pharmacy: "serhat eczanesi", stock: 62, address: "Ayazağa, Mustafa Kemal Atatürk Cd No:65/D, 34475 Şişli/İstanbul", phone: "Telefon Belirtilmedi" },
+                { name: "majezik", pharmacy: "serhat eczanesi", stock: 13, address: "Ayazağa, Mustafa Kemal Atatürk Cd No:65/D, 34475 Şişli/İstanbul", phone: "Telefon Belirtilmedi" }
+            ];
+
+            localStorage.setItem("pharmacies", JSON.stringify(demoPharmacies));
+            localStorage.setItem("allMedicines", JSON.stringify(demoMedicines));
+        }
+    }
+    
+    loadDemoData();
+
+});
+</script>
 </body>
 </html>
